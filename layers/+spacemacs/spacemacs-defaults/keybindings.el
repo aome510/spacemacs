@@ -403,7 +403,8 @@
   "hdp" 'describe-package
   "hdP" 'configuration-layer/describe-package
   "hds" 'spacemacs/describe-system-info
-  "hdt" 'describe-theme
+  "hdt" 'describe-text-properties
+  "hdT" 'describe-theme
   "hdv" 'describe-variable
   "hI"  'spacemacs/report-issue
   "hn"  'view-emacs-news
