@@ -521,6 +521,10 @@ Other:
     terminal mode, but no longer in GUI mode. (emacs18)
 *** Core changes
 - Improvements:
+  - Make =set-selective-display=, which is a kind of built-in Emacs quick-n-dirty
+    whole-file folding mechanism for indentation-based syntaxes, more
+    discoverable for Evil users by placing it (with a small DWIM wrapper) in the
+    folding menu as ~z $~ (thanks to Keith Pinson)
   - Provide keybindings for using narrow with an indirect buffer for when you
     want narrowing multiple times in the same base buffer:
     - ~SPC n F~ for narrow to function
@@ -756,6 +760,10 @@ Other:
     (thanks to Vladimir Kochnev and Eivind Fonn)
   - Added =password-generator= package to =spacemacs-editing= layer
     (thanks to Sylvain Benner)
+  - Added =persistent-scratch= package to =spacemacs-editing= layer
+    (thanks to Ray Wang)
+  - Added =unkillable-scratch= package to =spacemacs-editing= layer
+    (thanks to Ray Wang)
   - Added =symon= package to =spacemacs-modeline= layer
     (thanks to Eugene Yaremenko)
   - Added =evil-goggles= to the =spacemacs-evil= layer
@@ -1653,6 +1661,19 @@ Other:
     added in CIDER 0.26
     ~SPC m e (~ 'cider-eval-list-at-point
     (thanks to John Stevenson)
+  - Add key binding for existing cider-inspect functions
+    ~SPC m v e~ 'cider-inspect-last-sexp
+    ~SPC m v f~ 'cider-inspect-defun-at-point
+    ~SPC m v i~ 'cider-inspect
+    ~SPC m v l~ 'cider-inspect-last-result
+    ~SPC m v v~ 'cider-inspect-expr
+    (thanks to John Stevenson)
+  - Add key bindings for existing cider namespace functions
+    ~SPC m e n a~ 'cider-ns-reload-all
+    ~SPC m e n n~ 'cider-eval-ns-form
+    ~SPC m e n r~ 'cider-ns-refresh
+    ~SPC m e n l~ 'cider-ns-reload
+    (thanks to John Stevenson)
 - Fixes:
   - Removed =cider.nrepl/cider-middleware= in lein quick start setting
   - Fixed =cider-inspector-prev-page= binding, also add ~p~ as another key
@@ -1962,6 +1983,7 @@ Other:
     (thanks to Sylvain Benner)
   - Remove package =github-browse-file= which has been replaced by
    =browse-at-remote= in =version-control= layer
+  - Added package =grip=mode= (thanks to Daniel Nicolai)
 - Key bindings:
   - Added ~g r~ evilified binding to gist-list-mode
     (thanks to Jean-Sebastien A. Beaudry)
@@ -1971,6 +1993,8 @@ Other:
   - Forge-post buffer (thanks to Miciah Masters and yuhan0):
     - ~SPC m c~ or ~SPC m ,~ submit post
     - ~SPC m k~ or ~SPC m k~ cancel post
+  - md/org buffer (thanks to Daniel Nicolai)
+    - ~SPC g h p~ (toggle) grip-mode
 - Replace =evilified-state-evilify= by =evilified-state-evilify-map=
   (thanks to Sylvain Benner)
 - Disabled status, issues, and PRs by default (thanks to Miciah Masters)
@@ -3123,6 +3147,8 @@ files (thanks to Daniel Nicolai)
     - ~SPC m g i~ to go to the module of the variable under cursor
     (thanks to Seong Yong-ju)
   - Added ~SPC m r l t~ for =js2r-log-this= (thanks to Mike Holm)
+  - Set the =javascript= layers keymap as parent to the =react= layers keymap
+    (thanks to duianto)
 - Fixes:
   - Use JSX header without breaking React (thanks to Jam Risser)
   - Fixed React imports when using web beautify. (thanks to Ismael)
