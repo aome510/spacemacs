@@ -490,6 +490,7 @@ In org-agenda-mode
     (thanks to Zach Pearson)
   - New variable =dotspacemacs-read-process-output-max= to optimise lsp
     performance in emacs 27 (thanks to Maximilian Wolff)
+  - New variable =dotspacemacs-show-trailing-whitespace= (thanks to duianto)
 - Removed Variables:
   - Removed unused variable =dotspacemacs-verbose-loading= from
     =.spacemacs.template= (thanks to Ying Qu)
@@ -620,6 +621,8 @@ Other:
     =dotspacemacs-emacs-dumper-dump-file= (thanks to Evan Klitzke)
   - Add =spacemacs-scratch-mode-hook= to run functions
     after =spacemacs-scratch-mode= is applied to =*scratch*= buffer (thanks to rayw000)
+  - Add toggles for persistent which-key keymaps, (full)-major/minor mode
+    keymaps and top-level keymap, under prefix ~SPC t k~ (thanks to Daniel Nicolai)
 - Fixes:
   - Avoid non-idempotent use of push in init code (thanks to Miciah Masters)
   - Moved Spacemacs startup progress bar to =core-progress-bar.el=, removed
@@ -1882,6 +1885,7 @@ Other:
 - Fixed flycheck initialization (thanks to Kevin W. van Rooijen)
 - Added =elm-test-runner= (thanks to Juan Edi)
 **** Emacs Lisp
+- Fix: after edebug session, get out of evil-evilified (thanks to Ag Ibragimov)
 - Key bindings:
   - Make ~SPC m h h~ and jump handlers work in =ielm= (thanks to Keith Pinson)
   - Added ~c~ to continue in edebug mode (thanks to hodge)
@@ -2614,6 +2618,8 @@ files (thanks to Daniel Nicolai)
 - Improvements:
   - Evilfied =dap= debug windows
 **** Markdown
+- Fontify code blocks natively by default, for parity with the Org layer (thanks
+  to Keith Pinson)
 - Disable =mmm-mode= in Git commit buffers, in order to allow the use of Markdown
   mode when committing (thanks to Keith Pinson)
 - New layer variable =markdown-mmm-auto-modes= which is a list of language names
@@ -3286,6 +3292,10 @@ files (thanks to Daniel Nicolai)
     - ~SPC c s d~ Copy rpms to the phone
     - ~SPC c s i~ Install rpms into target
 **** Scala
+- Remove long-deprecated Ensime support (thanks to Keith Pinson)
+- Provide an easy way to configure SBT to use a small buffer at the bottom of
+  the frame by setting =scala-sbt-window-position= to =bottom= (thanks to Keith
+  Pinson)
 - Move =ensime= to the =java= layer (Tor Hedin Bronner)
 - Key bindings:
   - Evilify =ensime= search in insert/normal mode (thanks to Diego Alvarez)

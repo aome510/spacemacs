@@ -47,6 +47,7 @@
         (org-sticky-header :toggle org-enable-sticky-header)
         (verb :toggle org-enable-verb-support)
         (org-roam :toggle org-enable-roam-support)
+        (valign :toggle org-enable-valign)
         ))
 
 (defun org/post-init-company ()
@@ -462,10 +463,13 @@ Will work on both org-mode and any mode that accepts plain html."
         (spacemacs/declare-prefix-for-mode 'org-agenda-mode
           (car prefix) (cdr prefix)))
       (spacemacs/set-leader-keys-for-major-mode 'org-agenda-mode
+        (or dotspacemacs-major-mode-leader-key ",") 'org-agenda-ctrl-c-ctrl-c
         "a" 'org-agenda
+        "c" 'org-agenda-capture
         "Cc" 'org-agenda-clock-cancel
         "Ci" 'org-agenda-clock-in
         "Co" 'org-agenda-clock-out
+        "Cj" 'org-agenda-clock-goto
         "dd" 'org-agenda-deadline
         "ds" 'org-agenda-schedule
         "ie" 'org-agenda-set-effort
@@ -565,6 +569,7 @@ Headline^^            Visit entry^^               Filter^^                    Da
       :bindings
       "j" 'org-agenda-next-line
       "k" 'org-agenda-previous-line
+      "K" nil
       ;; C-h should not be rebound by evilification so we unshadow it manually
       ;; TODO add the rule in auto-evilification to ignore C-h (like we do
       ;; with C-g)
@@ -790,7 +795,9 @@ Headline^^            Visit entry^^               Filter^^                    Da
     :body
     (let ((agenda-files (org-agenda-files)))
       (if agenda-files
-          (find-file (first agenda-files))
+          (progn (find-file (if org-persp-startup-org-file org-persp-startup-org-file (first agenda-files)))
+                 (if org-persp-startup-with-agenda (org-agenda nil org-persp-startup-with-agenda)
+                 ))
         (user-error "Error: No agenda files configured, nothing to display.")))))
 
 (defun org/init-org-journal ()
@@ -931,3 +938,11 @@ Headline^^            Visit entry^^               Filter^^                    Da
 (defun org/pre-init-verb ()
   (spacemacs|use-package-add-hook org
     :post-config (add-to-list 'org-babel-load-languages '(verb . t))))
+
+(defun org/init-valign ()
+  (use-package valign
+    :init
+    (progn
+      (add-hook 'org-mode-hook 'valign-mode)
+      (add-hook 'valign-mode-hook (lambda () (unless valign-mode
+                                               (valign-remove-advice)))))))
