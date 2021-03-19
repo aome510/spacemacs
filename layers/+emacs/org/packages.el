@@ -23,6 +23,8 @@
     (ob :location built-in)
     (org :location built-in)
     (org-agenda :location built-in)
+    (org-wild-notifier
+                :toggle org-enable-notifications)
     (org-contacts :location built-in
                   :toggle org-enable-org-contacts-support)
     (org-vcard :toggle org-enable-org-contacts-support)
@@ -50,7 +52,9 @@
     (org-sticky-header :toggle org-enable-sticky-header)
     (verb :toggle org-enable-verb-support)
     (org-roam :toggle org-enable-roam-support)
-    (valign :toggle org-enable-valign)))
+    (valign :toggle org-enable-valign)
+    (org-appear :location (recipe :fetcher github :repo "awth13/org-appear")
+                :toggle org-enable-appear-support)))
 
 (defun org/post-init-company ()
   (spacemacs|add-company-backends :backends company-capf :modes org-mode))
@@ -588,6 +592,13 @@ Headline^^            Visit entry^^               Filter^^                    Da
       (kbd "M-SPC") 'spacemacs/org-agenda-transient-state/body
       (kbd "s-M-SPC") 'spacemacs/org-agenda-transient-state/body)))
 
+(defun org/init-org-wild-notifier ()
+  (use-package org-wild-notifier
+    :defer t
+    :init
+    (when org-start-notification-daemon-on-startup
+      (org-wild-notifier-mode))))
+
 (defun org/init-org-brain ()
   (use-package org-brain
     :defer t
@@ -901,7 +912,8 @@ Headline^^            Visit entry^^               Filter^^                    Da
         "aorI" 'org-roam-insert-immediate
         "aorl" 'org-roam-buffer-toggle-display
         "aorta" 'org-roam-tag-add
-        "aortd" 'org-roam-tag-delete)
+        "aortd" 'org-roam-tag-delete
+        "aora" 'org-roam-alias-add)
 
       (spacemacs/declare-prefix-for-mode 'org-mode "mr" "org-roam")
       (spacemacs/declare-prefix-for-mode 'org-mode "mrd" "org-roam-dailies")
@@ -918,7 +930,8 @@ Headline^^            Visit entry^^               Filter^^                    Da
         "rI" 'org-roam-insert-immediate
         "rl" 'org-roam-buffer-toggle-display
         "rta" 'org-roam-tag-add
-        "rtd" 'org-roam-tag-delete))
+        "rtd" 'org-roam-tag-delete
+        "ra" 'org-roam-alias-add))
     :config
     (progn
       (spacemacs|hide-lighter org-roam-mode))))
@@ -968,3 +981,13 @@ Headline^^            Visit entry^^               Filter^^                    Da
                                                (valign-remove-advice)))))
     :config
     (spacemacs|diminish valign-mode " ㊣" " E")))
+
+(defun org/init-org-appear()
+  (use-package org-appear
+    :defer t
+    :init
+    (progn
+      (add-hook 'org-mode-hook 'org-appear-mode)
+      (setq org-appear-autolinks t
+            org-appear-autoemphasis t
+            org-appear-autosubmarkers t))))
