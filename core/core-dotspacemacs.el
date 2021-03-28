@@ -1,13 +1,25 @@
 ;;; core-dotspacemacs.el --- Spacemacs Core File
 ;;
-;; Copyright (c) 2012-2020 Sylvain Benner & Contributors
+;; Copyright (c) 2012-2021 Sylvain Benner & Contributors
 ;;
 ;; Author: Sylvain Benner <sylvain.benner@gmail.com>
 ;; URL: https://github.com/syl20bnr/spacemacs
 ;;
 ;; This file is not part of GNU Emacs.
 ;;
-;;; License: GPLv3
+;; This program is free software; you can redistribute it and/or modify
+;; it under the terms of the GNU General Public License as published by
+;; the Free Software Foundation, either version 3 of the License, or
+;; (at your option) any later version.
+;;
+;; This program is distributed in the hope that it will be useful,
+;; but WITHOUT ANY WARRANTY; without even the implied warranty of
+;; MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+;; GNU General Public License for more details.
+;;
+;; You should have received a copy of the GNU General Public License
+;; along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
 
 (require 'core-customization)
 
@@ -171,7 +183,7 @@ a layer lazily."
 wrapped in a layer. If you need some configuration for these
 packages then consider to create a layer, you can also put the
 configuration in `dotspacemacs/user-config'."
-  '(repeat symbol)
+  '(repeat (choice symbol (cons symbol sexp)))
   'spacemacs-dotspacemacs-layers)
 
 (defvar dotspacemacs--additional-theme-packages '()
@@ -184,7 +196,9 @@ in `dotspacemacs-themes'.")
 `hybrid state' with `emacs' key bindings. The value can also be a list
  with `:variables' keyword (similar to layers). Check the editing styles
  section of the documentation for details on available variables."
-  '(choice (const vim) (const emacs) (const hybrid))
+  '(choice (const vim) (cons symbol sexp)
+           (const emacs) (cons symbol sexp)
+           (const hybrid) (cons symbol sexp))
   'spacemacs-dotspacemacs-init)
 
 (spacemacs|defc dotspacemacs-startup-banner 'official
@@ -233,7 +247,7 @@ whenever you start Emacs."
   "List of themes, the first of the list is loaded when spacemacs starts.
 Press `SPC T n' to cycle to the next theme in the list (works great
 with 2 themes variants, one dark and one light"
-  '(repeat symbol)
+  '(repeat (choice symbol (cons symbol sexp)))
   'spacemacs-dotspacemacs-init)
 
 (spacemacs|defc dotspacemacs-mode-line-theme '(spacemacs
@@ -264,8 +278,12 @@ can be a symbol or a list with additional properties like '(all-the-icons
 
 (spacemacs|defc dotspacemacs-frame-title-format "%I@%S"
   "Default format string for a frame title bar, using the
-original format spec, and additional customizations."
-  'string
+original format spec, and additional customizations.
+
+If nil then Spacemacs uses default `frame-title-format' instead of
+calculating the frame title by `spacemacs/title-prepare' all the time.
+This can help to avoid performance issues."
+  '(choice (const nil) string)
   'spacemacs-dotspacemacs-init)
 
 (spacemacs|defc dotspacemacs-icon-title-format nil
@@ -292,7 +310,7 @@ original format spec, and additional customizations."
 (spacemacs|defc dotspacemacs-major-mode-leader-key ","
   "Major mode leader key is a shortcut key which is the equivalent of
 pressing `<leader> m`. Set it to `nil` to disable it."
-  'string
+  '(choice (const nil) string)
   'spacemacs-dotspacemacs-init)
 
 (spacemacs|defc dotspacemacs-major-mode-emacs-leader-key
@@ -630,7 +648,7 @@ visiting README.org files of Spacemacs."
   "Correct indentation for simple modes.
 
 If non nil activate `clean-aindent-mode' which tries to correct
-virtual indentation of simple modes. This can interfer with mode specific
+virtual indentation of simple modes. This can interfere with mode specific
 indent handling like has been reported for `go-mode'.
 If it does deactivate it here. (default t)"
   'boolean
